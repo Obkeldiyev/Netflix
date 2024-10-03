@@ -11,6 +11,8 @@ import { DislikeModule } from './dislike/dislike.module';
 import { ViewsModule } from './views/views.module';
 import * as dotenv from 'dotenv';
 import { Film } from './films/entities/film.entity';
+import { Serial } from './serials/entities/serial.entity';
+import { Like } from './likes/entities/like.entity';
 dotenv.config();
 
 @Module({
@@ -22,7 +24,7 @@ dotenv.config();
       username: process.env.DB_USERNAME as string,
       password: process.env.DB_PASSWORD as string,
       database: process.env.DB_DATABASE as string,
-      entities: [Film],
+      entities: [Film, Serial, Like],
       synchronize: true,
       logging: true,
     }),

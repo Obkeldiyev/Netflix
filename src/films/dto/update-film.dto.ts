@@ -5,7 +5,7 @@ import { PrimaryColumn } from 'typeorm';
 export class UpdateFilmDto {
   @IsNotEmpty()
   @PrimaryColumn()
-  id: number;
+  id: string;
 
   @IsString()
   @Optional()

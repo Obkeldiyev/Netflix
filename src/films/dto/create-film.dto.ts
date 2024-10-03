@@ -1,10 +1,10 @@
 import { IsInt, IsNotEmpty, IsString } from 'class-validator';
-import { PrimaryGeneratedColumn } from 'typeorm';
+import { PrimaryColumn } from 'typeorm';
 
 export class CreateFilmDto {
   @IsNotEmpty()
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryColumn()
+  id: string;
 
   @IsNotEmpty()
   @IsString()

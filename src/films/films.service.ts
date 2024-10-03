@@ -4,6 +4,7 @@ import { UpdateFilmDto } from './dto/update-film.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Film } from './entities/film.entity';
 import { Repository } from 'typeorm';
+import uuid from 'uuid';
 
 @Injectable()
 export class FilmsService {
@@ -24,6 +25,7 @@ export class FilmsService {
           message: 'This name has been taken please choose another one',
         };
       } else {
+        createFilmDto.id = uuid.v4();
         const newFilm = this.filmRepository.create(createFilmDto);
         await this.filmRepository.save(newFilm);
 
@@ -54,7 +56,7 @@ export class FilmsService {
     }
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     try {
       return await this.filmRepository.findOneBy({ id });
     } catch (error) {
@@ -66,7 +68,7 @@ export class FilmsService {
     }
   }
 
-  async update(id: number, updateFilmDto: UpdateFilmDto) {
+  async update(id: string, updateFilmDto: UpdateFilmDto) {
     try {
       const check: Film = await this.filmRepository.findOneBy({ id });
 
@@ -95,7 +97,7 @@ export class FilmsService {
     }
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     try {
       const check = await this.filmRepository.findOneBy({ id });
 
