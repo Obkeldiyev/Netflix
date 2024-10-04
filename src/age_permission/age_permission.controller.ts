@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { AgePermissionService } from './age_permission.service';
 import { CreateAgePermissionDto } from './dto/create-age_permission.dto';
 import { UpdateAgePermissionDto } from './dto/update-age_permission.dto';
@@ -23,7 +31,10 @@ export class AgePermissionController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAgePermissionDto: UpdateAgePermissionDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateAgePermissionDto: UpdateAgePermissionDto,
+  ) {
     return this.agePermissionService.update(+id, updateAgePermissionDto);
   }
 

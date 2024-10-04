@@ -4,7 +4,7 @@ import { UpdateSerialDto } from './dto/update-serial.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Serial } from './entities/serial.entity';
 import { Repository } from 'typeorm';
-import uuid from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class SerialsService {
@@ -26,7 +26,7 @@ export class SerialsService {
           message: 'This name has been taken please choose another one',
         };
       } else {
-        createSerialDto.id = uuid.v4();
+        createSerialDto.id = uuidv4();
         const newSerial = this.serialRepository.create(createSerialDto);
         await this.serialRepository.save(newSerial);
 

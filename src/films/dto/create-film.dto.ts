@@ -1,8 +1,8 @@
-import { IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { PrimaryColumn } from 'typeorm';
 
 export class CreateFilmDto {
-  @IsNotEmpty()
+  @IsOptional()
   @PrimaryColumn()
   id: string;
 

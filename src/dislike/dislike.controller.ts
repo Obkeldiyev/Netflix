@@ -1,7 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 import { DislikeService } from './dislike.service';
 import { CreateDislikeDto } from './dto/create-dislike.dto';
-import { UpdateDislikeDto } from './dto/update-dislike.dto';
 
 @Controller('dislike')
 export class DislikeController {
@@ -20,11 +19,6 @@ export class DislikeController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.dislikeService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDislikeDto: UpdateDislikeDto) {
-    return this.dislikeService.update(+id, updateDislikeDto);
   }
 
   @Delete(':id')

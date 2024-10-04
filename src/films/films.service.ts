@@ -4,7 +4,7 @@ import { UpdateFilmDto } from './dto/update-film.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Film } from './entities/film.entity';
 import { Repository } from 'typeorm';
-import uuid from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class FilmsService {
@@ -15,7 +15,7 @@ export class FilmsService {
   async create(createFilmDto: CreateFilmDto) {
     try {
       const check = await this.filmRepository.findOneBy({
-        id: createFilmDto.id,
+        name: createFilmDto.name,
       });
 
       if (check) {
@@ -25,7 +25,7 @@ export class FilmsService {
           message: 'This name has been taken please choose another one',
         };
       } else {
-        createFilmDto.id = uuid.v4();
+        createFilmDto.id = uuidv4();
         const newFilm = this.filmRepository.create(createFilmDto);
         await this.filmRepository.save(newFilm);
 

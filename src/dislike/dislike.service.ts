@@ -1,26 +1,100 @@
 import { Injectable } from '@nestjs/common';
 import { CreateDislikeDto } from './dto/create-dislike.dto';
-import { UpdateDislikeDto } from './dto/update-dislike.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Dislike } from './entities/dislike.entity';
 
 @Injectable()
 export class DislikeService {
-  create(createDislikeDto: CreateDislikeDto) {
-    return 'This action adds a new dislike';
+  likeRepository: any;
+  constructor(
+    @InjectRepository(Dislike)
+    private readonly dislikeRepository: Repository<Dislike>,
+  ) {}
+
+  async create(CreateDislikeDto: CreateDislikeDto) {
+    try {
+      const check = await this.dislikeRepository.findOne({
+        where: {
+          user_id: CreateDislikeDto.user_id,
+          film_id: CreateDislikeDto.film_id,
+        },
+      });
+
+      if (check) {
+        return {
+          status: 409,
+          success: false,
+          message: 'You already disliked this video',
+        };
+      } else {
+        const newLike = this.dislikeRepository.create(CreateDislikeDto);
+        await this.dislikeRepository.save(newLike);
+
+        return {
+          status: 210,
+          success: true,
+          message: 'You disliked successfully',
+        };
+      }
+    } catch (error) {
+      return {
+        status: 500,
+        success: false,
+        message: error.message,
+      };
+    }
   }
 
-  findAll() {
-    return `This action returns all dislike`;
+  async findAll() {
+    try {
+      return await this.dislikeRepository.find();
+    } catch (error) {
+      return {
+        status: 500,
+        success: false,
+        message: error.message,
+      };
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} dislike`;
+  async findOne(id: number) {
+    try {
+      return await this.dislikeRepository.findOneBy({ id });
+    } catch (error) {
+      return {
+        status: 500,
+        success: false,
+        message: error.message,
+      };
+    }
   }
 
-  update(id: number, updateDislikeDto: UpdateDislikeDto) {
-    return `This action updates a #${id} dislike`;
-  }
+  async remove(id: number) {
+    try {
+      const check = await this.dislikeRepository.findOneBy({ id });
 
-  remove(id: number) {
-    return `This action removes a #${id} dislike`;
+      if (check) {
+        await this.dislikeRepository.delete(id);
+
+        return {
+          status: 201,
+          success: true,
+          message: 'The dislike deleted successfully',
+        };
+      } else {
+        return {
+          status: 404,
+          success: false,
+          message: 'No access',
+        };
+      }
+    } catch (error) {
+      return {
+        status: 500,
+        success: false,
+        message: error.message,
+      };
+    }
   }
 }
