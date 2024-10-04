@@ -16,7 +16,13 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
+<<<<<<< HEAD
     "noFallthroughCasesInSwitch": false,
     "esModuleInterop": true
   }
 }
+=======
+    "noFallthroughCasesInSwitch": false
+  }
+}
+>>>>>>> 061c4e46a2be97f8b77e2df0b843aece1fbaf4ad
