@@ -17,6 +17,9 @@ import { Dislike } from './dislike/entities/dislike.entity';
 import { View } from './views/entities/view.entity';
 import { Category } from './categories/entities/category.entity';
 import { AgePermission } from './age_permission/entities/age_permission.entity';
+import { User } from './users/entities/user.entity';
+import { Continent } from './continents/entities/continent.entity';
+import { Country } from './countries/entities/country.entity';
 dotenv.config();
 
 @Module({
@@ -28,7 +31,18 @@ dotenv.config();
       username: process.env.DB_USERNAME as string,
       password: process.env.DB_PASSWORD as string,
       database: process.env.DB_DATABASE as string,
-      entities: [Film, Serial, Like, Dislike, View, Category, AgePermission],
+      entities: [
+        Film,
+        Serial,
+        Like,
+        Dislike,
+        View,
+        Category,
+        AgePermission,
+        User,
+        Continent,
+        Country,
+      ],
       synchronize: true,
       logging: true,
     }),
