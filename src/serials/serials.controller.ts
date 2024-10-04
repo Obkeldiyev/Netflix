@@ -27,16 +27,16 @@ export class SerialsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.serialsService.findOne(+id);
+    return this.serialsService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateSerialDto: UpdateSerialDto) {
-    return this.serialsService.update(+id, updateSerialDto);
+    return this.serialsService.update(id, updateSerialDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.serialsService.remove(+id);
+    return this.serialsService.remove(id);
   }
 }
