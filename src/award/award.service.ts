@@ -1,26 +1,119 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAwardDto } from './dto/create-award.dto';
 import { UpdateAwardDto } from './dto/update-award.dto';
+import { Award } from './entities/award.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class AwardService {
-  create(createAwardDto: CreateAwardDto) {
-    return 'This action adds a new award';
+  constructor(@InjectRepository(Award) private readonly awardRepository: Repository<Award>){}
+  async create(createAwardDto: CreateAwardDto) {
+    try {
+      let checkAward = await this.awardRepository.findOne({where: {name: createAwardDto.name}})
+
+      if(checkAward) {
+        let createAward = await this.awardRepository.create(createAwardDto)
+
+        return {
+          success: true,
+          message: 'Award has been created✅'
+        }
+      }else {
+        return {
+          success: false,
+          message: 'There Award is already exists❗'
+        }
+      }
+    } catch (error) {
+      return {
+        success: false,
+        mesage: error.message
+      }
+    }
   }
 
-  findAll() {
-    return `This action returns all award`;
+  async findAll() {
+    try {
+      return await this.awardRepository.find()
+    } catch (error) {
+      return {
+        success: false,
+        message: error.message
+      }
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} award`;
+  async findOne(id: number) {
+    try {
+      let check = await this.awardRepository.findOneBy({id})
+
+      if(check) {
+        return {
+          success: true,
+          data: check
+        }
+      }else {
+        return {
+          success: false,
+          message: 'There is no Award like this❗'
+        }
+      }
+    } catch (error) {
+      return {
+        success: false,
+        message: error.message
+      }
+    }
   }
 
-  update(id: number, updateAwardDto: UpdateAwardDto) {
-    return `This action updates a #${id} award`;
+  async update(id: number, updateAwardDto: UpdateAwardDto) {
+    try {
+      let check = await this.awardRepository.findOneBy({id})
+
+      if(check) {
+        await this.awardRepository.update(updateAwardDto, {id})
+
+        return {
+          success: true,
+          message: "Updated successfully✅"
+        }
+      }else{
+        return {
+          success: false,
+          message: 'There is no Award like this❗'
+        }
+      }
+    } catch (error) {
+      return {
+        success: false,
+        message: error.message
+      }
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} award`;
+  async remove(id: number) {
+    try {
+      let check = await this.awardRepository.findOneBy({id})
+
+      if(check) {
+        await this.awardRepository.delete({id})
+
+        return {
+          success :true,
+          message: 'Deleted successfully✅'
+        }
+      }else {
+        return {
+          success: false,
+          message: 'There is no data to delete❗'
+        }
+      }
+    } catch (error) {
+      return {
+        success: false,
+        message: error.message
+      }
+    }
   }
 }
