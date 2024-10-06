@@ -22,9 +22,9 @@ export class DirectorController {
     return this.directorService.findOne(+id);
   }
 
-  @Patch('update/:id')
-  update(@Param('id') id: string, @Body() updateDirectorDto: UpdateDirectorDto) {
-    return this.directorService.update(+id, updateDirectorDto);
+  @Patch('update')
+  update(@Body() updateDirectorDto: UpdateDirectorDto) {
+    return this.directorService.update(updateDirectorDto);
   }
 
   @Delete('delete/:id')

@@ -67,12 +67,12 @@ export class AwardService {
     }
   }
 
-  async update(id: number, updateAwardDto: UpdateAwardDto) {
+  async update(updateAwardDto: UpdateAwardDto) {
     try {
-      let check = await this.awardRepository.findOneBy({id})
+      let check = await this.awardRepository.findOneBy({id: updateAwardDto.id})
 
       if(check) {
-        await this.awardRepository.update(updateAwardDto, {id})
+        await this.awardRepository.update(updateAwardDto, {id: updateAwardDto.id})
 
         return {
           success: true,

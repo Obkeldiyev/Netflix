@@ -68,12 +68,12 @@ export class ActorService {
     }
   }
 
-  async update(id: number, updateActorDto: UpdateActorDto) {
+  async update(updateActorDto: UpdateActorDto) {
     try {
-      let check = await this.actorsRepository.findOneBy({id})
+      let check = await this.actorsRepository.findOneBy({id: updateActorDto.id})
 
       if(check) {
-        let updateActor = await this.actorsRepository.update(updateActorDto, {id})
+        let updateActor = await this.actorsRepository.update(updateActorDto, {id: updateActorDto.id})
         
         return {
           success: true,

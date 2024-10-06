@@ -22,9 +22,9 @@ export class ActorController {
     return this.actorService.findOne(+id);
   }
 
-  @Patch('update/:id')
-  update(@Param('id') id: string, @Body() updateActorDto: UpdateActorDto) {
-    return this.actorService.update(+id, updateActorDto);
+  @Patch('update')
+  update(@Body() updateActorDto: UpdateActorDto) {
+    return this.actorService.update(updateActorDto);
   }
 
   @Delete('delete/:id')

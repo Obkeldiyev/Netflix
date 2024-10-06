@@ -22,9 +22,9 @@ export class AwardController {
     return this.awardService.findOne(+id);
   }
 
-  @Patch('update/:id')
-  update(@Param('id') id: string, @Body() updateAwardDto: UpdateAwardDto) {
-    return this.awardService.update(+id, updateAwardDto);
+  @Patch('update')
+  update(@Body() updateAwardDto: UpdateAwardDto) {
+    return this.awardService.update(updateAwardDto);
   }
 
   @Delete('delete/:id')
