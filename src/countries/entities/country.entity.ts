@@ -1,12 +1,13 @@
-import { Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
+@Entity()
 export class Country {
-  @PrimaryGeneratedColumn({ type: 'int' })
-  id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @Column({ type: 'varchar' })
-  name: string;
+    @Column({type: "varchar"})
+    name: string;
 
-  @Column({ type: 'int' })
-  continent_id: number;
+    @Column({type: "int"})
+    country_id: number;
 }

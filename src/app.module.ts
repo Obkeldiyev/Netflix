@@ -17,9 +17,30 @@ import { Dislike } from './dislike/entities/dislike.entity';
 import { View } from './views/entities/view.entity';
 import { Category } from './categories/entities/category.entity';
 import { AgePermission } from './age_permission/entities/age_permission.entity';
-import { User } from './users/entities/user.entity';
-import { Continent } from './continents/entities/continent.entity';
+import { Admin } from './admins/entities/admin.entity';
+import { Comment } from './comments/entities/comment.entity';
+import { Continent } from './continent/entities/continent.entity';
 import { Country } from './countries/entities/country.entity';
+import { User } from './users/entities/user.entity';
+import { AdminsModule } from './admins/admins.module';
+import { CommentsModule } from './comments/comments.module';
+import { ContinentModule } from './continent/continent.module';
+import { CountriesModule } from './countries/countries.module';
+import { UsersModule } from './users/users.module';
+import { ActorModule } from './actor/actor.module';
+import { ActorAward } from './actor-award/entities/actor-award.entity';
+import { ActorAwardModule } from './actor-award/actor-award.module';
+import { DirectorModule } from './director/director.module';
+import { DirectorAward } from './director-award/entities/director-award.entity';
+import { MovieAwardModule } from './movie-award/movie-award.module';
+import { Actor } from './actor/entities/actor.entity';
+import { ActorDirectorSerialFilm } from './actor_director_serial_film/entities/actor_director_serial_film.entity';
+import { ActorDirectorSerialFilmModule } from './actor_director_serial_film/actor_director_serial_film.module';
+import { Award } from './award/entities/award.entity';
+import { AwardModule } from './award/award.module';
+import { Director } from './director/entities/director.entity';
+import { MovieAward } from './movie-award/entities/movie-award.entity';
+
 dotenv.config();
 
 @Module({
@@ -39,9 +60,18 @@ dotenv.config();
         View,
         Category,
         AgePermission,
-        User,
+        Admin,
+        Comment,
         Continent,
         Country,
+        User,
+        Actor,
+        ActorDirectorSerialFilm,
+        ActorAward,
+        Award,
+        Director,
+        DirectorAward,
+        MovieAward,
       ],
       synchronize: true,
       logging: true,
@@ -53,6 +83,19 @@ dotenv.config();
     LikesModule,
     DislikeModule,
     ViewsModule,
+    AdminsModule,
+    CommentsModule,
+    ContinentModule,
+    CountriesModule,
+    UsersModule,
+    ActorModule,
+    ActorAward,
+    ActorAwardModule,
+    DirectorModule,
+    DirectorAward,
+    MovieAwardModule,
+    ActorDirectorSerialFilmModule,
+    AwardModule,
   ],
   controllers: [AppController],
   providers: [AppService],
