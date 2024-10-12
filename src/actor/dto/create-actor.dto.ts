@@ -1,11 +1,19 @@
-import { isNotEmpty, IsNotEmpty, IsNumber, isNumber, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateActorDto {
-    @IsNotEmpty()
-    @IsString()
-    fullname: string
+  @IsNotEmpty()
+  @IsString()
+  fullname: string;
 
-    @IsNotEmpty()
-    @IsNumber()
-    age: number
+  @IsNotEmpty()
+  @IsString()
+  username: string;
+
+  @IsNotEmpty()
+  @IsString()
+  password: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  age: number;
 }

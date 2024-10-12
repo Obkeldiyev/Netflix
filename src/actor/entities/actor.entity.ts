@@ -1,13 +1,19 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Actor {
-    @PrimaryGeneratedColumn()
-    id: number
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    fullname: string
+  @Column()
+  fullname: string;
 
-    @Column()
-    age: number
+  @Column({ type: 'varchar', unique: true })
+  username: string;
+
+  @Column({ type: 'varchar' })
+  password: string;
+
+  @Column()
+  age: number;
 }

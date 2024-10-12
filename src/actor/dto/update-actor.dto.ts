@@ -3,16 +3,23 @@ import { CreateActorDto } from './create-actor.dto';
 import { IsNotEmpty, IsNumber, IsString, Min } from 'class-validator';
 
 export class UpdateActorDto extends PartialType(CreateActorDto) {
-    @Min(0)
-    @IsNumber()
-    id: number
+  @Min(0)
+  @IsNumber()
+  id: number;
 
-    @IsNotEmpty()
-    @IsString()
-    fullname: string
+  @IsNotEmpty()
+  @IsString()
+  fullname: string;
 
-    @IsNotEmpty()
-    @IsNumber()
-    age: number
+  @IsNotEmpty()
+  @IsString()
+  username: string;
 
+  @IsNotEmpty()
+  @IsString()
+  password: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  age: number;
 }

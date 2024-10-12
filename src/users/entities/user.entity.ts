@@ -11,8 +11,11 @@ export class User {
   @Column({ type: 'varchar' })
   last_name: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', unique: true })
   username: string;
+
+  @Column({ type: 'varchar' })
+  password: string;
 
   @Column({ type: 'int' })
   age: number;

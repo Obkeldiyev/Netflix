@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { FilmsModule } from './films/films.module';
@@ -40,6 +40,8 @@ import { Award } from './award/entities/award.entity';
 import { AwardModule } from './award/award.module';
 import { Director } from './director/entities/director.entity';
 import { MovieAward } from './movie-award/entities/movie-award.entity';
+import { verifyToken } from './middlewares/verifyToken';
+import { verifyRole } from './middlewares/verifyRole';
 
 dotenv.config();
 
@@ -100,4 +102,8 @@ dotenv.config();
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(verifyToken, verifyRole('admin')).forRoutes('*');
+  }
+}

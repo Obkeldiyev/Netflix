@@ -4,6 +4,9 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import { sign } from 'jsonwebtoken';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 @Injectable()
 export class UsersService {
@@ -14,28 +17,44 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto) {
     try {
-      const checkUserUsername = await this.usersRepository.findOneBy({
+      const usernameChek = await this.usersRepository.findOneBy({
         username: createUserDto.username,
       });
 
-      if (checkUserUsername) {
+      if (usernameChek) {
         return {
-          success: false,
-          message: `Username ${createUserDto.username} already in use`,
           status: 409,
+          success: false,
+          message: 'This username has been taken',
+        };
+      } else {
+        const newUser = await this.usersRepository.create(createUserDto);
+        await this.usersRepository.save(newUser);
+
+        const access_token = sign(
+          { id: newUser.id, role: 'user' },
+          process.env.SECRET_KEY,
+          { expiresIn: 500 },
+        );
+
+        const refresh_token = sign(
+          { id: newUser.id, role: 'user' },
+          process.env.SECRET_KEY,
+        );
+
+        return {
+          status: 202,
+          success: true,
+          message: 'Welcome',
+          tokens: {
+            access_token,
+            refresh_token,
+          },
         };
       }
-
-      await this.usersRepository.save(createUserDto);
-
-      return {
-        success: true,
-        message: 'User created successfully!',
-        status: 200,
-      };
     } catch (error) {
       return {
-        status: 500,
+        status: error.status,
         success: false,
         message: error.message,
       };
@@ -68,7 +87,7 @@ export class UsersService {
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     try {
-      let checkUser = await this.usersRepository.findOneBy({ id });
+      const checkUser = await this.usersRepository.findOneBy({ id });
 
       if (!checkUser) {
         return {
@@ -79,7 +98,7 @@ export class UsersService {
       }
 
       if (updateUserDto.username) {
-        let checkUserUsername = await this.usersRepository.findOneBy({
+        const checkUserUsername = await this.usersRepository.findOneBy({
           username: updateUserDto.username,
         });
 
@@ -131,6 +150,58 @@ export class UsersService {
       return {
         success: false,
         status: 500,
+        message: error.message,
+      };
+    }
+  }
+
+  async login(username: string, password: string) {
+    try {
+      const checkUser = await this.usersRepository.findOneBy({
+        username,
+      });
+
+      console.log(checkUser);
+
+      if (checkUser) {
+        if (checkUser.password === password) {
+          const access_token = sign(
+            { id: checkUser.id, role: 'user' },
+            process.env.SECRET_KEY,
+            { expiresIn: 500 },
+          );
+          const refresh_token = sign(
+            { id: checkUser.id, role: 'user' },
+            process.env.SECRET_KEY,
+          );
+
+          return {
+            status: 200,
+            success: false,
+            message: 'Welcome back',
+            tokens: {
+              access_token,
+              refresh_token,
+            },
+          };
+        } else {
+          return {
+            status: 400,
+            success: false,
+            message: 'Wrong password',
+          };
+        }
+      } else {
+        return {
+          status: 404,
+          success: false,
+          message: 'Wrong username',
+        };
+      }
+    } catch (error) {
+      return {
+        status: error.status,
+        success: false,
         message: error.message,
       };
     }

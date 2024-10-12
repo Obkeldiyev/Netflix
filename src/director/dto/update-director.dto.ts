@@ -3,16 +3,24 @@ import { CreateDirectorDto } from './create-director.dto';
 import { IsNotEmpty, IsNumber, IsString, Min } from 'class-validator';
 
 export class UpdateDirectorDto extends PartialType(CreateDirectorDto) {
-    @IsNotEmpty()
-    @IsNumber()
-    @Min(0)
-    id: number 
+  @IsNotEmpty()
+  @IsNumber()
+  @Min(0)
+  id: number;
 
-    @IsNotEmpty()
-    @IsString()
-    fullname: string
+  @IsNotEmpty()
+  @IsString()
+  fullname: string;
 
-    @IsNotEmpty()
-    @IsNumber()
-    age: number
+  @IsNotEmpty()
+  @IsString()
+  username: string;
+
+  @IsNotEmpty()
+  @IsString()
+  password: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  age: number;
 }
